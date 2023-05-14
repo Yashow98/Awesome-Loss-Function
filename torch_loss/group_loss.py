@@ -5,7 +5,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+__all__ = [
+    'GroupLoss',
+]
 class GroupLoss(nn.Module):
 
     def __init__(self, in_feats=2048, n_ids=100, n_iters=2,

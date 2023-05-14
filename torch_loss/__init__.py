@@ -2,3 +2,8 @@
 # @Author  : Yashowhoo
 # @File    : __init__.py.py
 # @Description :
+from group_loss import *
+
+__all__ = [
+    'GroupLoss',
+]
