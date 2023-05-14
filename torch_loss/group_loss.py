@@ -1,11 +1,6 @@
-#! /usr/bin/python
-# -*- encoding: utf-8 -*-
-
-'''
+"""
     Proposed in this paper: https://arxiv.org/abs/2204.01509
-'''
-
-
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -14,7 +9,7 @@ import torch.nn.functional as F
 class GroupLoss(nn.Module):
 
     def __init__(self, in_feats=2048, n_ids=100, n_iters=2,
-            n_lbs_per_cls=2, has_fc=True):
+                 n_lbs_per_cls=2, has_fc=True):
         super(GroupLoss, self).__init__()
         self.n_lbs_per_cls = n_lbs_per_cls
         self.n_iters = n_iters
@@ -35,7 +30,7 @@ class GroupLoss(nn.Module):
         emb_norm = emb - emb.mean(dim=1, keepdims=True)
         emb_norm = F.normalize(emb_norm, dim=1)
         W = torch.einsum('ab,cb->ac', emb_norm, emb_norm)
-        W = W.fill_diagonal_(0) # official code does not has this
+        W = W.fill_diagonal_(0)  # official code does not have this
         W = self.clip(W)
 
         # init prob, official code use stratified sample, here we simply use uniform sample without stratification
@@ -66,7 +61,7 @@ if __name__ == '__main__':
     in_feats = 2048
     n_ids = 100
     inten = torch.randn(16, in_feats).cuda()
-    lbs = torch.randint(0, n_ids, (16, )).cuda()
+    lbs = torch.randint(0, n_ids, (16,)).cuda()
 
     # method 1: has fc inside, only need to feed emb
     crit = GroupLoss(in_feats=in_feats, n_ids=n_ids).cuda()
@@ -81,4 +76,3 @@ if __name__ == '__main__':
     loss = crit(inten, lbs, logits)
     print(loss)
     loss.backward()
-
