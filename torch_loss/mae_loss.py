@@ -1,6 +1,6 @@
 # @Author  : YashowHoo
 # @File    : mae_loss.py
-# @Description :mean absolute error loss
+# @Description :mean absolute error loss or L1 loss
 
 import numpy as np
 from sklearn import metrics
